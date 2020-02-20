@@ -14,7 +14,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        return ReviewResource::collection($product->reviews);
     }
 
     /**
@@ -35,7 +35,13 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $review = new Review($request->all());
+       
+       $product->reviews()->save($review);
+      
+       return response([
+         'data' => new ReviewResource($review)
+       ],Response::HTTP_CREATED);
     }
 
     /**
@@ -69,7 +75,7 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        //
+        $review->update($request->all());
     }
 
     /**
@@ -80,6 +86,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
